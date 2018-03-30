@@ -5,5 +5,6 @@ Employee Attrition may seriously damage a companies reputation in various aspect
 Statistical learning method can help us in maximizing the probability of employee attrition outcome. In this data-driven technology, we shall be focusing on the types of data discussed above.
 
 Demographic Data: This gives the information of employee’s title, age, gender, etc. as this type of data doesn’t change according to time.
+
 Sentimental data: Measurements include Job satisfaction, relationship satisfaction,  environment satisfaction, work-life balance etc. Sentimental analysis plays an important role in the prediction of employee attrition. Using statistical techniques this can analyze by tracking search histories, posts on social media, individual profile analysis etc.
 
