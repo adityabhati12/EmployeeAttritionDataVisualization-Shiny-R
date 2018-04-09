@@ -120,9 +120,8 @@ ui <- dashboardPage(skin = c("red"),
     fluidRow(
       # A static infoBox
       infoBox("Total Rows", 1470 , icon = icon("credit-card")),
-      # Dynamic infoBoxes
-      infoBoxOutput("Total Job Roles"),
-      infoBoxOutput("Highest Income")
+      infoBox("Attrition Type", "Yes Or NO" , icon = icon("credit-card"))
+      
     ),
     
     tabBox(
@@ -137,11 +136,20 @@ ui <- dashboardPage(skin = c("red"),
         box(title ="Scatter Plot",solidHeader = TRUE, collapsible = TRUE, plotOutput(outputId = "scatterplot")),
         box(title ="Density Plot" , solidHeader = TRUE, collapsible = TRUE,  plotOutput(outputId = "densityplot"))
       ),
+      
       tabPanel(
         "Plot2",
-      
-        box(htmlOutput("bubble", height = 250) ,plotlyOutput("plot1", height = 250))
-       
+        fluidRow(
+          box(title = "bubble chart",htmlOutput("bubble", height = 250))
+              ),
+        fluidRow(
+          
+          box(title = "Dynamic Chart",plotlyOutput("plot1", height = 250))
+        )
+        
+    #  box(htmlOutput("bubble", height = 250)),
+    #  box(plotlyOutput("plot1", height = 250))
+        
        
       ),
       tabPanel(
@@ -243,12 +251,14 @@ server <- function(input, output) {
   })
   #######highchart
   output$hc_1 <- renderHighchart({
+    df$attrition <- as.factor(df$attrition)
     df <- temp
+    
     
     names(temp) <- tolower(names(temp))
     
     temp <- temp %>%
-      mutate(population = monthlyincome*ifelse(attrition == "Yes", -1, 1))
+      mutate(population = monthlyincome*ifelse(attrition == "1", -1, 1))
     
     series1 <- temp %>% 
       group_by(attrition, age)  %>% 
@@ -261,13 +271,13 @@ server <- function(input, output) {
     
     maxpop1 <- max(abs(temp$population))
     
-    xaxis1 <- list(categories = sort(unique(temp$Age)),
+    xaxis1 <- list(categories = sort(unique(temp$age)),
                    reversed = FALSE, tickInterval = 5,
                    labels = list(step = 2))
     
     highchart() %>%
       hc_chart(type = "bar")  %>% 
-      hc_motion(enabled = TRUE, labels = emp$distancefromhome, series = c(0,1), autoplay = TRUE, updateInterval = 1) %>% 
+      hc_motion(enabled = TRUE, labels = temp$distancefromhome, series = c(0,1), autoplay = TRUE, updateInterval = 1) %>% 
       hc_add_series_list(series1) %>% 
       hc_plotOptions(
         series = list(stacking = "normal"),
