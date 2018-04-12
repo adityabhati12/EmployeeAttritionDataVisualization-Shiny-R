@@ -1,4 +1,4 @@
-#
+  #
 # This is a Shiny web application. You can run the application by clicking
 # the 'Run App' button above.
 #
@@ -170,7 +170,7 @@ ui <- dashboardPage(skin = c("red"),
       tabPanel(
         "Dataset Representation",
         "First tab content",
-        DT::dataTableOutput(outputId = "Attritiontable", height = 250)
+       box(DT::dataTableOutput(outputId = "Attritiontable"), width = 12) 
       ),
       width = 12
     )
